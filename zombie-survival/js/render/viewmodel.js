@@ -11,6 +11,18 @@ function box(b, x0, y0, z0, x1, y1, z1, c) {
   b.box('k', x0, y0, z0, x1, y1, z1, lin(c));
 }
 
+// prisma a n lati lungo z (raggio r0 in z0, r1 in z1), chiuso alle due estremità
+function prism(b, x, y, z0, z1, r0, r1, col, seg) {
+  const P = (a, z, r) => [x + Math.cos(a) * r, y + Math.sin(a) * r, z];
+  for (let k = 0; k < seg; k++) {
+    const a0 = (k / seg) * Math.PI * 2 + Math.PI / seg, a1 = ((k + 1) / seg) * Math.PI * 2 + Math.PI / seg;
+    const sh = 0.72 + 0.28 * Math.max(0, Math.sin((a0 + a1) / 2) * 0.8 + 0.2);
+    b.quadAuto('k', [P(a0, z0, r0), P(a1, z0, r0), P(a1, z1, r1), P(a0, z1, r1)], shadeCol(col, sh), 1);
+    b.tri('k', [[x, y, z1], P(a0, z1, r1), P(a1, z1, r1)], [0, 0, 1], [0, 0, 0, 0, 0, 0], col);
+    b.tri('k', [[x, y, z0], P(a1, z0, r0), P(a0, z0, r0)], [0, 0, -1], [0, 0, 0, 0, 0, 0], shadeCol(col, 0.8));
+  }
+}
+
 // modello dell'oggetto in mano (origine = impugnatura, asse lungo -z... si orienta col gruppo)
 function heldModel(id) {
   const b = new GeoBuilder();
@@ -91,7 +103,8 @@ export class Viewmodel {
     this.dir = new THREE.DirectionalLight(0xffffff, 1);
     this.flash = new THREE.PointLight(0xfff0d6, 0, 3, 1.2);
     this.flash.position.set(0.1, -0.2, -0.4);
-    this.scene.add(this.hemi, this.dir, this.dir.target);
+    this.fill = new THREE.AmbientLight(0xd8cfc0, 0);
+    this.scene.add(this.hemi, this.dir, this.dir.target, this.fill);
     this.cam.add(this.flash);
     this.mat = new THREE.MeshLambertMaterial({ vertexColors: true });
     this.rig = new THREE.Group();
@@ -120,13 +133,17 @@ export class Viewmodel {
     while (group.children.length > 1) group.remove(group.children[1]);
     const b = new GeoBuilder();
     const s = mirror ? -1 : 1;
-    // avambraccio lungo -z, mano in fondo
-    b.box('k', -0.045 * s - 0.0, -0.05, -0.05, 0.045 * s, 0.045, 0.32, lin(sleeve));
-    b.box('k', -0.04, -0.045, -0.16, 0.04, 0.035, -0.05, lin(hand));
-    b.box('k', -0.045, -0.02, -0.2, 0.045, 0.03, -0.15, shadeCol(lin(hand), 0.95));
-    const m = new THREE.Mesh(b.buildOne(), this.mat);
-    m.geometry.translate(0, 0, 0);
-    group.add(m);
+    const sc = lin(sleeve), hc = lin(hand);
+    // avambraccio lungo +z verso la camera, mano in fondo verso -z
+    prism(b, 0, 0, 0.0, 0.38, 0.05, 0.06, sc, 8);
+    prism(b, 0, -0.002, -0.045, 0.005, 0.055, 0.055, shadeCol(sc, 0.8), 8);
+    prism(b, 0, -0.004, -0.075, -0.04, 0.031, 0.033, hc, 6);
+    // palmo, dita chiuse sull'impugnatura, nocche e pollice
+    b.box('k', -0.037, -0.032, -0.165, 0.037, 0.026, -0.065, hc);
+    b.box('k', -0.035, -0.062, -0.2, 0.035, 0.008, -0.155, shadeCol(hc, 0.9));
+    b.box('k', -0.036, 0.004, -0.19, 0.036, 0.022, -0.15, shadeCol(hc, 1.05));
+    b.box('k', -0.052 * s, -0.012, -0.15, -0.026 * s, 0.018, -0.09, shadeCol(hc, 0.95));
+    group.add(new THREE.Mesh(b.buildOne(), this.mat));
   }
 
   buildBody(sleeve, pants, shoes) {
@@ -367,6 +384,7 @@ export class Viewmodel {
     const sd = sky.sunDir;
     const c = Math.cos(-p.yaw), s = Math.sin(-p.yaw);
     this.dir.position.set(sd.x * c - sd.z * s, sd.y, sd.x * s + sd.z * c);
+    this.fill.intensity = sky.fill.intensity;
     this.flash.intensity = sky.flash.intensity > 0 ? 1.4 : 0;
     let near = 0;
     for (const l of sky.points) {
