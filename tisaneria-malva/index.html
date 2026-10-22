@@ -1,0 +1,1213 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Malva Officinale</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Malva Officinale, tisaneria botanica: prototipo di negozio online di tisane e infusi a freddo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Young+Serif&display=swap">
+<style>
+/* Layout: bottega-erbario. Hero con tazza viva (malva blu che vira al rosa col limone), striscia con i colori in tazza,
+   menù filtrabile a tessere, guida all'infusione, cofanetti, fascia filiera con calendario di raccolta, newsletter, footer. */
+:root{
+  --paper:#EDF0E8;
+  --paper-2:#E3E7DC;
+  --tile:#DFE4D7;
+  --card:#F6F8F2;
+  --ink:#231F27;
+  --ink-soft:#5C5862;
+  --line:#CAD0C2;
+  --malva:#7A3C76;
+  --malva-ink:#FFFFFF;
+  --band:#2B3929;
+  --on-band:#E9EDE2;
+  --on-band-soft:#B4BEA9;
+  --porcelain:#FCFCF9;
+  --porcelain-edge:#D3D8CC;
+  --porcelain-shade:#EEF0EA;
+  --box:#D3CAB5;
+  --shadow:rgba(34,40,28,.24);
+  --shadow-soft:rgba(34,40,28,.10);
+
+  --display:"Young Serif","Iowan Old Style",Georgia,serif;
+  --body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+  --maxw:1240px;
+  --gutter:clamp(16px,4vw,40px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131512; --paper-2:#1A1D19; --tile:#1F231E; --card:#1C201B;
+    --ink:#ECEEE6; --ink-soft:#A6AB9E; --line:#2F352D;
+    --malva:#D49ACD; --malva-ink:#1E121D;
+    --band:#1F2B1D; --on-band:#E9EDE2; --on-band-soft:#A5B199;
+    --porcelain:#E7E8E2; --porcelain-edge:#B8BDB1; --porcelain-shade:#D3D6CD;
+    --box:#3A372F; --shadow:rgba(0,0,0,.55); --shadow-soft:rgba(0,0,0,.35);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131512; --paper-2:#1A1D19; --tile:#1F231E; --card:#1C201B;
+  --ink:#ECEEE6; --ink-soft:#A6AB9E; --line:#2F352D;
+  --malva:#D49ACD; --malva-ink:#1E121D;
+  --band:#1F2B1D; --on-band:#E9EDE2; --on-band-soft:#A5B199;
+  --porcelain:#E7E8E2; --porcelain-edge:#B8BDB1; --porcelain-shade:#D3D6CD;
+  --box:#3A372F; --shadow:rgba(0,0,0,.55); --shadow-soft:rgba(0,0,0,.35);
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html:has(dialog[open]){overflow:hidden}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--malva);outline-offset:3px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+section[id]{scroll-margin-top:84px}
+
+.wrap{max-width:var(--maxw);margin-inline:auto;
+  padding-left:max(var(--gutter),env(safe-area-inset-left,0px));
+  padding-right:max(var(--gutter),env(safe-area-inset-right,0px))}
+
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0}
+.title{font-family:var(--display);font-weight:400;font-size:clamp(2rem,4.2vw,3.1rem);line-height:1.05;letter-spacing:-.01em;margin:10px 0 0;text-wrap:balance}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:999px;padding:13px 22px;font:600 15px/1.1 var(--body);text-decoration:none;cursor:pointer;border:1px solid var(--ink);transition:background-color .2s,color .2s,border-color .2s}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn.primary:hover{background:var(--malva);border-color:var(--malva);color:var(--malva-ink)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.btn.malva{background:var(--malva);border-color:var(--malva);color:var(--malva-ink)}
+.btn.malva:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn.small{padding:9px 16px;font-size:14px}
+.btn.wide{width:100%}
+
+/* Announcement + header */
+.announce{background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;letter-spacing:.04em}
+.announce .wrap{display:flex;justify-content:center;flex-wrap:wrap;gap:4px 28px;padding-block:8px;text-align:center}
+.announce b{font-weight:500;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+
+.site-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);-webkit-backdrop-filter:saturate(1.2) blur(12px);backdrop-filter:saturate(1.2) blur(12px);border-bottom:1px solid var(--line)}
+.site-header .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+.brand-mark{width:34px;height:34px;flex:none}
+.mark-petal{fill:var(--malva);stroke:var(--paper);stroke-width:.9}
+.mark-center{fill:var(--paper)}
+.mark-vein{stroke:var(--paper);stroke-width:.6;fill:none;opacity:.7}
+.brand-name{font-family:var(--display);font-size:1.45rem;line-height:1}
+.brand-sub{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;white-space:nowrap}
+.primary-nav ul{display:flex;gap:30px;list-style:none;margin:0;padding:0}
+.primary-nav a{text-decoration:none;font-weight:500;font-size:15px;color:var(--ink-soft);transition:color .2s}
+.primary-nav a:hover{color:var(--ink)}
+.cart-btn{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);background:transparent;border-radius:999px;padding:7px 8px 7px 14px;font-weight:500;font-size:14px;cursor:pointer;transition:border-color .2s}
+.cart-btn:hover{border-color:var(--ink)}
+.cart-btn svg{width:18px;height:18px}
+.cart-count{font-family:var(--mono);font-size:12px;background:var(--ink);color:var(--paper);border-radius:999px;min-width:22px;height:22px;display:inline-grid;place-items:center;padding-inline:6px}
+@media (max-width:820px){.primary-nav{display:none}}
+@media (max-width:440px){.cart-label{display:none}.cart-btn{padding-left:10px}}
+
+/* Hero */
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(32px,6vw,84px);align-items:center;padding-block:clamp(40px,7vw,96px) clamp(48px,7vw,96px)}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(2.6rem,5.8vw,4.7rem);line-height:1.01;letter-spacing:-.02em;margin:18px 0 24px;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--malva)}
+.lede{font-size:clamp(1.05rem,1.35vw,1.2rem);color:var(--ink-soft);max-width:33em;margin:0}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.hero-facts{display:flex;flex-wrap:wrap;gap:16px 40px;margin:44px 0 0;padding-top:22px;border-top:1px solid var(--line)}
+.hero-facts div{display:flex;flex-direction:column-reverse;gap:4px}
+.hero-facts dt{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.hero-facts dd{margin:0;font-family:var(--display);font-size:1.75rem;line-height:1;font-variant-numeric:tabular-nums}
+
+.brew{display:flex;flex-direction:column;align-items:center;gap:22px;min-width:0}
+.stage{position:relative;width:min(100%,470px);aspect-ratio:1/1;max-width:100%}
+.saucer{position:absolute;inset:0;border-radius:50%;background:var(--porcelain);box-shadow:0 44px 70px -34px var(--shadow),inset 0 0 0 1px var(--porcelain-edge)}
+.saucer::after{content:"";position:absolute;inset:12%;border-radius:50%;box-shadow:inset 0 3px 14px var(--shadow-soft),inset 0 0 0 1px var(--porcelain-edge)}
+.handle{position:absolute;top:50%;right:3%;width:22%;height:13%;transform:translateY(-50%);border-radius:999px;background:var(--porcelain);box-shadow:0 12px 18px -10px var(--shadow),inset 0 0 0 1px var(--porcelain-edge)}
+.cupbody{position:absolute;inset:17%;border-radius:50%;background:var(--porcelain-shade);box-shadow:0 20px 32px -14px var(--shadow),inset 0 0 0 1px var(--porcelain-edge),inset 0 0 0 7px var(--porcelain)}
+#brew{position:absolute;inset:8%;width:84%;height:84%;border-radius:50%;cursor:pointer;touch-action:manipulation;display:block}
+.specimen{position:absolute;left:0;bottom:3%;transform:rotate(-4deg);background:var(--card);border:1px solid var(--line);padding:10px 13px 11px;font-family:var(--mono);font-size:11px;line-height:1.55;color:var(--ink-soft);box-shadow:0 10px 22px -12px var(--shadow);max-width:60%}
+.specimen strong{display:block;font-family:var(--body);font-style:italic;font-weight:400;font-size:14px;color:var(--ink);letter-spacing:0;margin:2px 0}
+.specimen .no{letter-spacing:.12em;text-transform:uppercase;font-size:10px}
+.brew-controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 18px}
+.brew-state{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--ink-soft);display:inline-flex;align-items:center;gap:8px}
+.brew-state i{width:11px;height:11px;border-radius:50%;background:#43489B;box-shadow:0 0 0 2px var(--porcelain),0 0 0 3px var(--porcelain-edge);transition:background-color .6s}
+.brew-note{font-size:14.5px;color:var(--ink-soft);text-align:center;max-width:31em;margin:0;text-wrap:pretty}
+@media (max-width:900px){
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:520px){
+  .specimen{font-size:10px;padding:8px 10px;bottom:0}
+  .specimen strong{font-size:12.5px}
+}
+
+/* Palette strip */
+.palette{background:var(--paper-2);border-block:1px solid var(--line)}
+.palette .wrap{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:20px 56px;align-items:center;padding-block:30px}
+.palette h2{font-family:var(--display);font-weight:400;font-size:1.4rem;line-height:1.15;margin:0}
+.palette p{margin:6px 0 0;color:var(--ink-soft);font-size:14px}
+.palette-now{font-family:var(--mono);font-size:12px;color:var(--ink);min-height:1.6em;margin-top:12px!important;display:flex;align-items:center;gap:8px}
+.palette-now i{width:9px;height:9px;border-radius:50%;flex:none}
+.swatches{display:grid;grid-template-columns:repeat(12,minmax(0,40px));gap:12px;justify-content:start}
+.swatch{width:100%;aspect-ratio:1/1;max-width:100%;border-radius:50%;border:0;padding:0;cursor:pointer;background:var(--c);box-shadow:inset 0 0 0 3px var(--porcelain),0 0 0 1px var(--porcelain-edge),0 6px 10px -6px var(--shadow);transition:transform .2s}
+.swatch:hover,.swatch:focus-visible{transform:translateY(-3px) scale(1.08)}
+.swatch:focus-visible{outline-offset:4px;border-radius:50%}
+@media (max-width:820px){
+  .palette .wrap{grid-template-columns:minmax(0,1fr)}
+  .swatches{grid-template-columns:repeat(8,minmax(0,1fr));gap:10px}
+}
+
+/* Section scaffolding */
+.section .wrap{padding-block:clamp(56px,8vw,104px)}
+.section-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 40px;margin-bottom:30px}
+.section-head > p{max-width:34em;color:var(--ink-soft);margin:0}
+
+/* Menu */
+.toolbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 24px;align-items:center;padding-block:16px;border-block:1px solid var(--line)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:7px 14px;font-weight:500;font-size:14px;cursor:pointer;display:inline-flex;gap:7px;align-items:baseline;transition:background-color .2s,border-color .2s,color .2s}
+.chip:hover{border-color:var(--ink)}
+.chip .n{font-family:var(--mono);font-size:11px;color:var(--ink-soft)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip[aria-pressed="true"] .n{color:inherit;opacity:.7}
+.tools{display:flex;flex-wrap:wrap;gap:10px}
+.search{position:relative;display:flex}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--ink-soft);pointer-events:none}
+.field{font-size:14px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;height:40px;padding:0 16px}
+.field:focus-visible{outline:2px solid var(--malva);outline-offset:2px;border-radius:999px}
+.search .field{padding-left:38px;width:240px}
+select.field{padding-right:12px;cursor:pointer}
+.cat-desc{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px 24px;margin:20px 0 32px;color:var(--ink-soft);font-size:15px}
+.cat-desc p{margin:0;max-width:44em}
+.result-count{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+@media (max-width:900px){
+  .toolbar{grid-template-columns:minmax(0,1fr)}
+  .search{flex:1 1 200px}
+  .search .field{width:100%}
+}
+
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:44px 24px}
+@media (max-width:880px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 14px}}
+.product{display:flex;flex-direction:column;gap:16px;min-width:0}
+.tile{position:relative;display:grid;place-items:center;width:100%;aspect-ratio:1/1;max-width:100%;background:var(--tile);border:0;border-radius:6px;cursor:pointer;padding:9%;overflow:hidden}
+.tile .cup{width:100%;height:auto}
+.badge{position:absolute;top:12px;left:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;background:var(--paper);color:var(--ink);padding:4px 9px;border-radius:999px;z-index:1}
+.badge.firma{background:var(--malva);color:var(--malva-ink)}
+.meta{display:flex;flex-direction:column;flex:1;min-width:0}
+.p-cat{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin:0}
+.p-name{font-family:var(--display);font-weight:400;font-size:1.3rem;line-height:1.15;margin:6px 0 6px;text-wrap:balance}
+.p-name button{background:none;border:0;padding:0;margin:0;text-align:left;cursor:pointer;font:inherit;line-height:inherit}
+.p-name button:hover{color:var(--malva)}
+.p-ingr{font-size:14px;color:var(--ink-soft);margin:0}
+.p-spec{font-family:var(--mono);font-size:12px;margin:12px 0 0;display:flex;flex-wrap:wrap;gap:2px 0}
+.p-spec span+span::before{content:"·";margin-inline:8px;color:var(--ink-soft)}
+.p-buy{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 12px;margin-top:auto;padding-top:14px}
+.meta .p-spec{margin-bottom:14px}
+.p-buy{border-top:1px solid var(--line)}
+.price{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.price small{font-weight:400;color:var(--ink-soft);font-size:13px}
+.add{border:1px solid var(--ink);background:transparent;border-radius:999px;padding:7px 15px;font-weight:600;font-size:13px;cursor:pointer;transition:background-color .2s,color .2s}
+.add:hover{background:var(--ink);color:var(--paper)}
+.empty{grid-column:1/-1;padding:56px 24px;text-align:center;border:1px dashed var(--line);border-radius:10px;color:var(--ink-soft)}
+.empty p{margin:0 0 6px}
+.empty .linkish{background:none;border:0;padding:0;color:var(--malva);text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-weight:600}
+
+/* Cup SVG */
+.cup{display:block;overflow:visible}
+.c-porc{fill:var(--porcelain);stroke:var(--porcelain-edge);stroke-width:1}
+.c-wall{fill:var(--porcelain-shade)}
+.c-water{fill:var(--porcelain)}
+.c-shadow{fill:var(--shadow)}
+.liquor{transform-box:fill-box;transform-origin:center;transition:transform 1.6s cubic-bezier(.2,.7,.2,1)}
+.tile:hover .liquor{transform:rotate(48deg)}
+.lq{transition:opacity .4s linear}
+
+/* Guide */
+.guide{background:var(--paper-2);border-block:1px solid var(--line)}
+.guide-grid{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:40px 64px;align-items:start}
+.guide-intro > p{color:var(--ink-soft);margin:18px 0 0;max-width:30em}
+.tips{list-style:none;padding:0;margin:30px 0 0;display:grid}
+.tips li{padding:14px 0;border-top:1px solid var(--line);font-size:15px;color:var(--ink-soft)}
+.tips li:last-child{border-bottom:1px solid var(--line)}
+.tips strong{color:var(--ink);font-weight:600}
+.table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.steep{width:100%;border-collapse:collapse;font-size:14.5px;min-width:600px}
+.steep th{text-align:left;font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);padding:14px 18px;border-bottom:1px solid var(--line);white-space:nowrap}
+.steep td{padding:16px 18px;border-bottom:1px solid var(--line);vertical-align:top}
+.steep tr:last-child td{border-bottom:0}
+.steep td strong{display:block;font-weight:600}
+.steep .ex{display:block;color:var(--ink-soft);font-size:13.5px;margin-top:2px}
+.steep .num{font-family:var(--mono);font-size:13.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.thermo{display:block;width:84px;height:5px;border-radius:999px;background:var(--line);margin-top:8px;overflow:hidden}
+.thermo span{display:block;height:100%;border-radius:inherit;background:var(--malva)}
+.table-note{font-size:13px;color:var(--ink-soft);margin:12px 2px 0}
+@media (max-width:900px){.guide-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Boxes */
+.boxes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 24px}
+@media (max-width:820px){.boxes{grid-template-columns:minmax(0,1fr)}}
+.giftbox{display:flex;flex-direction:column;gap:18px;min-width:0}
+.box-visual{display:grid;place-items:center;aspect-ratio:4/3;max-width:100%;background:var(--tile);border-radius:6px;padding:8%}
+.tray{background:var(--box);border-radius:10px;padding:5%;display:grid;gap:10px;box-shadow:inset 0 2px 10px var(--shadow-soft),0 22px 30px -20px var(--shadow)}
+.tray.four{grid-template-columns:repeat(2,minmax(0,1fr));width:58%}
+.tray.many{grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;width:100%;padding:4%}
+.lid{aspect-ratio:1/1;border-radius:50%;background:radial-gradient(circle at 34% 30%,#FFFFFF,#CDD0C8 62%,#A3A79F);position:relative;box-shadow:0 3px 6px -2px var(--shadow)}
+.lid::after{content:"";position:absolute;inset:20%;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 2px rgba(255,255,255,.55)}
+.giftbox h3{font-family:var(--display);font-weight:400;font-size:1.45rem;line-height:1.15;margin:0}
+.giftbox p{margin:6px 0 0;color:var(--ink-soft);font-size:14.5px}
+.giftbox .p-buy{margin-top:auto}
+.save{font-family:var(--mono);font-size:11.5px;color:var(--malva);letter-spacing:.04em}
+
+/* Band */
+.band{background:var(--band);color:var(--on-band)}
+.band .eyebrow{color:var(--on-band-soft)}
+.band-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px 64px;align-items:end}
+.band-head p{color:var(--on-band-soft);margin:0;max-width:34em}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px 24px;margin:56px 0 0;padding:0}
+.stats div{border-top:1px solid color-mix(in srgb,var(--on-band) 26%,transparent);padding-top:18px}
+.stats dt{font-family:var(--display);font-size:clamp(2.2rem,4vw,3.1rem);line-height:1;font-variant-numeric:tabular-nums}
+.stats dd{margin:12px 0 0;color:var(--on-band-soft);font-size:15px;max-width:22em}
+@media (max-width:900px){
+  .band-head{grid-template-columns:minmax(0,1fr)}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+.harvest{margin:72px 0 0}
+.harvest-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px 24px;margin-bottom:18px}
+.harvest-top h3{font-family:var(--display);font-weight:400;font-size:1.5rem;margin:0}
+.harvest-top p{margin:0;color:var(--on-band-soft);font-size:14px}
+.harvest-top p b{color:var(--on-band);font-weight:600}
+.harvest-scroll{overflow-x:auto;padding-bottom:4px}
+.hgrid{display:grid;grid-template-columns:118px repeat(12,minmax(30px,1fr));row-gap:10px;align-items:center;min-width:600px;position:relative}
+.hgrid .m{font-family:var(--mono);font-size:11px;color:var(--on-band-soft);text-align:center;padding-bottom:6px}
+.hgrid .m.now{color:var(--on-band)}
+.hgrid .now-col{align-self:stretch;background:color-mix(in srgb,var(--on-band) 9%,transparent);border-radius:8px;margin-inline:2px}
+.hgrid .lbl{font-size:14px;color:var(--on-band);padding-right:12px;white-space:nowrap}
+.hgrid .track{height:12px;border-radius:999px;background:color-mix(in srgb,var(--on-band) 10%,transparent)}
+.hgrid .bar{height:12px;border-radius:999px;margin-inline:3px}
+
+/* Newsletter */
+.letter-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 64px;align-items:end}
+.letter-grid > div > p{color:var(--ink-soft);margin:16px 0 0;max-width:30em}
+.letter-form{display:flex;flex-wrap:wrap;gap:10px}
+.letter-form .field{flex:1 1 220px;height:50px;font-size:15px;padding-inline:20px}
+.letter-form .btn{height:50px}
+.form-note{width:100%;font-size:13px;color:var(--ink-soft);margin:4px 0 0}
+@media (max-width:820px){.letter-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Footer */
+.site-footer{background:var(--paper-2);border-top:1px solid var(--line);font-size:14.5px}
+.footer-grid{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));gap:36px 32px;padding-block:56px 40px}
+.footer-grid h2{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 14px}
+.footer-grid ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.footer-grid a{text-decoration:none}
+.footer-grid a:hover{color:var(--malva)}
+.footer-brand p{color:var(--ink-soft);margin:16px 0 0;max-width:26em}
+.footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;padding-block:20px 32px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-soft)}
+@media (max-width:820px){
+  .footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .footer-brand{grid-column:1/-1}
+}
+
+/* Product sheet (dialog) */
+dialog.sheet{border:0;padding:0;background:var(--paper);color:var(--ink);border-radius:16px;width:min(980px,calc(100% - 32px));max-width:none;max-height:calc(100dvh - 48px);overflow:auto;box-shadow:0 40px 90px -20px rgba(0,0,0,.5)}
+dialog.sheet[open]{animation:sheet-in .28s ease-out}
+dialog.sheet::backdrop{background:rgba(18,20,16,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+@keyframes sheet-in{from{opacity:0}to{opacity:1}}
+.close{position:absolute;top:14px;right:14px;z-index:3;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--paper);display:grid;place-items:center;cursor:pointer}
+.close:hover{border-color:var(--ink)}
+.close svg{width:16px;height:16px}
+.sheet-inner{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr)}
+.sheet-visual{position:relative;background:var(--tile);padding:56px 32px 36px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px}
+.sheet-visual .cup{width:min(100%,330px);height:auto}
+.timer{display:grid;justify-items:center;gap:8px;text-align:center;max-width:300px}
+.timer-read{font-family:var(--mono);font-size:2.4rem;line-height:1.1;font-variant-numeric:tabular-nums;margin:0}
+.timer-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.timer-msg{font-size:14px;color:var(--ink-soft);margin:0;min-height:1.5em}
+.sheet-body{padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;gap:22px;min-width:0}
+.sheet-title{font-family:var(--display);font-weight:400;font-size:clamp(1.9rem,3.4vw,2.6rem);line-height:1.05;margin:8px 48px 0 0;text-wrap:balance}
+.latin{font-style:italic;color:var(--ink-soft);margin:6px 0 0}
+.sheet-desc{margin:0;font-size:16px}
+.notes{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.notes li{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.spec-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);border-radius:10px;margin:0;background:var(--card)}
+.spec-grid div{padding:12px 14px;min-width:0}
+.spec-grid div+div{border-left:1px solid var(--line)}
+.spec-grid dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.spec-grid dd{margin:4px 0 0;font-family:var(--mono);font-size:1.05rem;font-variant-numeric:tabular-nums}
+.facts{display:grid;gap:10px;margin:0}
+.facts div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;font-size:14.5px}
+.facts dt{color:var(--ink-soft)}
+.facts dd{margin:0}
+.dots{display:inline-flex;gap:5px;vertical-align:middle}
+.dots i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--malva)}
+.sizes{border:0;padding:0;margin:0;min-width:0}
+.sizes legend{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);padding:0;margin-bottom:10px}
+.size-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.size{border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;display:flex;flex-direction:column;gap:1px;position:relative;transition:border-color .2s,box-shadow .2s}
+.size input{position:absolute;opacity:0;pointer-events:none}
+.size b{font-weight:600}
+.size span{font-size:12.5px;color:var(--ink-soft)}
+.size em{font-style:normal;font-family:var(--mono);font-size:13px;margin-top:4px}
+.size:hover{border-color:var(--ink-soft)}
+.size:has(input:checked){border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.size:has(input:focus-visible){outline:2px solid var(--malva);outline-offset:2px}
+.proto-note{font-size:13px;color:var(--ink-soft);margin:-12px 0 0;text-align:center}
+.pairs{border-top:1px solid var(--line);padding-top:18px}
+.pair-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.pair{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);background:transparent;border-radius:999px;padding:6px 14px 6px 6px;cursor:pointer;font-size:14px;font-weight:500}
+.pair:hover{border-color:var(--ink)}
+.pair i{width:22px;height:22px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 2px var(--porcelain),0 0 0 1px var(--porcelain-edge)}
+.sheet .badge{top:18px;left:18px}
+@media (max-width:760px){
+  dialog.sheet{width:100%;margin:auto 0 0;border-radius:18px 18px 0 0;max-height:92dvh;padding-bottom:env(safe-area-inset-bottom,0px)}
+  .sheet-inner{grid-template-columns:minmax(0,1fr)}
+  .sheet-visual{padding:56px 20px 28px}
+  .sheet-visual .cup{width:min(72%,260px)}
+  .size-grid{grid-template-columns:minmax(0,1fr)}
+  .size{flex-direction:row;align-items:baseline;gap:8px}
+  .size em{margin:0 0 0 auto}
+  .spec-grid dd{font-size:.95rem}
+  .facts div{grid-template-columns:96px minmax(0,1fr)}
+}
+
+/* Toast */
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,16px);opacity:0;pointer-events:none;background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:12px;font-size:14px;width:max-content;max-width:calc(100% - 32px);z-index:100;transition:opacity .25s,transform .25s;box-shadow:0 18px 40px -16px rgba(0,0,0,.5)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="8"/></filter>
+    <radialGradient id="cupEdge"><stop offset=".76" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></radialGradient>
+    <radialGradient id="cupGloss"><stop offset="0" stop-color="#fff" stop-opacity=".42"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  </defs>
+</svg>
+
+<div class="announce">
+  <div class="wrap">
+    <span>Spedizione gratuita da 35 € · consegna in 48 h</span>
+    <span><b>Prototipo dimostrativo</b>: gli acquisti non sono attivi</span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Malva Officinale, torna su">
+      <svg class="brand-mark" viewBox="-20 -20 40 40" aria-hidden="true">
+        <g id="petals">
+          <path class="mark-petal" d="M0-2.5C-6-5.5-9.2-13.6-4.4-17.4C-2.4-18.8-.7-17.6 0-15.6C.7-17.6 2.4-18.8 4.4-17.4C9.2-13.6 6-5.5 0-2.5Z"/>
+          <path class="mark-petal" transform="rotate(72)" d="M0-2.5C-6-5.5-9.2-13.6-4.4-17.4C-2.4-18.8-.7-17.6 0-15.6C.7-17.6 2.4-18.8 4.4-17.4C9.2-13.6 6-5.5 0-2.5Z"/>
+          <path class="mark-petal" transform="rotate(144)" d="M0-2.5C-6-5.5-9.2-13.6-4.4-17.4C-2.4-18.8-.7-17.6 0-15.6C.7-17.6 2.4-18.8 4.4-17.4C9.2-13.6 6-5.5 0-2.5Z"/>
+          <path class="mark-petal" transform="rotate(216)" d="M0-2.5C-6-5.5-9.2-13.6-4.4-17.4C-2.4-18.8-.7-17.6 0-15.6C.7-17.6 2.4-18.8 4.4-17.4C9.2-13.6 6-5.5 0-2.5Z"/>
+          <path class="mark-petal" transform="rotate(288)" d="M0-2.5C-6-5.5-9.2-13.6-4.4-17.4C-2.4-18.8-.7-17.6 0-15.6C.7-17.6 2.4-18.8 4.4-17.4C9.2-13.6 6-5.5 0-2.5Z"/>
+        </g>
+        <g class="mark-vein">
+          <path d="M0-4V-14"/><path transform="rotate(72)" d="M0-4V-14"/><path transform="rotate(144)" d="M0-4V-14"/><path transform="rotate(216)" d="M0-4V-14"/><path transform="rotate(288)" d="M0-4V-14"/>
+        </g>
+        <circle class="mark-center" r="3"/>
+      </svg>
+      <span><span class="brand-name">Malva</span><span class="brand-sub">Officinale · Tisaneria</span></span>
+    </a>
+    <nav class="primary-nav" aria-label="Sezioni">
+      <ul>
+        <li><a href="#tisane">Tisane</a></li>
+        <li><a href="#infusione">Infusione</a></li>
+        <li><a href="#cofanetti">Cofanetti</a></li>
+        <li><a href="#filiera">Filiera</a></li>
+      </ul>
+    </nav>
+    <button class="cart-btn" type="button" data-proto="cart" aria-label="Carrello, 0 articoli">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+      <span class="cart-label">Carrello</span><span class="cart-count">0</span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Tisaneria botanica · Spoleto</p>
+        <h1>Fiori, foglie e radici da bere <em>con calma</em>.</h1>
+        <p class="lede">Ventiquattro tisane e infusi a freddo, composti a mano con le erbe di piccoli produttori dell'Appennino. Scegli per momento della giornata, per gusto o per ingrediente.</p>
+        <div class="cta">
+          <a class="btn primary" href="#tisane">Sfoglia le tisane</a>
+          <a class="btn ghost" href="#infusione">Come prepararle</a>
+        </div>
+        <dl class="hero-facts">
+          <div><dt>Tisane e infusi</dt><dd>24</dd></div>
+          <div><dt>Teina, in tutte</dt><dd>0 mg</dd></div>
+          <div><dt>Produttori di erbe</dt><dd>14</dd></div>
+        </dl>
+      </div>
+
+      <div class="brew">
+        <div class="stage">
+          <div class="saucer"></div>
+          <div class="handle"></div>
+          <div class="cupbody">
+            <canvas id="brew" role="img" aria-label="Tazza di infuso di malva vista dall'alto: blu, diventa rosa con il limone"></canvas>
+          </div>
+          <div class="specimen" aria-hidden="true">
+            <span class="no">Erbario · N° 024</span>
+            <strong>Malva sylvestris L.</strong>
+            Fiori · raccolta di giugno<br>Essiccati a 36 °C
+          </div>
+        </div>
+        <div class="brew-controls">
+          <button class="btn malva" type="button" id="lemonBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3s6 6.4 6 10.6A6 6 0 0 1 6 13.6C6 9.4 12 3 12 3Z"/></svg>
+            <span id="lemonLabel">Aggiungi una goccia di limone</span>
+          </button>
+          <span class="brew-state" aria-live="polite"><i id="brewDot"></i><span id="brewState">Senza limone · blu malva</span></span>
+        </div>
+        <p class="brew-note">Malva blu è il nostro infuso firma. I fiori di malva tingono l'acqua di blu e il limone, acido, la fa virare al rosa. Tocca la tazza per versare una goccia.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="palette" aria-labelledby="paletteTitle">
+    <div class="wrap">
+      <div>
+        <h2 id="paletteTitle">La palette dell'erbario</h2>
+        <p>Ogni infuso ha il suo colore in tazza. Tocca un colore per aprire la scheda.</p>
+        <p class="palette-now" id="paletteNow">Passa sopra un colore per leggerne il nome.</p>
+      </div>
+      <div class="swatches" id="swatches"></div>
+    </div>
+  </section>
+
+  <section class="section" id="tisane" aria-labelledby="menuTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Il menù</p>
+          <h2 class="title" id="menuTitle">Le tisane</h2>
+        </div>
+        <p>Tutte senza teina. I prezzi sono per la latta da 50 g, che basta per circa 25 tazze.</p>
+      </div>
+
+      <div class="toolbar">
+        <div class="chips" id="chips" role="group" aria-label="Categorie"></div>
+        <div class="tools">
+          <label class="search">
+            <span class="sr">Cerca una tisana o un ingrediente</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+            <input class="field" id="search" type="search" placeholder="Cerca: zenzero, rosa, menta…" autocomplete="off">
+          </label>
+          <label>
+            <span class="sr">Ordina per</span>
+            <select class="field" id="sort">
+              <option value="evidenza">In evidenza</option>
+              <option value="prezzo-asc">Prezzo: dal più basso</option>
+              <option value="prezzo-desc">Prezzo: dal più alto</option>
+              <option value="nome">Nome A–Z</option>
+              <option value="tempo">Tempo di infusione</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="cat-desc">
+        <p id="catDesc"></p>
+        <span class="result-count" id="count" aria-live="polite"></span>
+      </div>
+
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section class="section guide" id="infusione" aria-labelledby="guideTitle">
+    <div class="wrap guide-grid">
+      <div class="guide-intro">
+        <p class="eyebrow">Guida all'infusione</p>
+        <h2 class="title" id="guideTitle">Temperatura, tempo, dose.</h2>
+        <p>Ogni parte della pianta rilascia il profumo a modo suo. I fiori vogliono acqua appena sotto il bollore; radici e semi il bollore pieno e più tempo.</p>
+        <ul class="tips">
+          <li><strong>Copri la tazza.</strong> Gli oli essenziali di menta, melissa e lavanda restano nell'infuso invece di evaporare.</li>
+          <li><strong>Usa acqua poco calcarea.</strong> Il calcare spegne il profumo dei fiori più delicati.</li>
+          <li><strong>Schiaccia i semi.</strong> Finocchio e anice rilasciano il gusto solo se la buccia è rotta.</li>
+          <li><strong>Rinfondi le radici.</strong> Zenzero e liquirizia reggono bene una seconda infusione.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="table-scroll">
+          <table class="steep">
+            <thead>
+              <tr><th scope="col">Cosa metti in infusione</th><th scope="col">Acqua</th><th scope="col">Tempo</th><th scope="col">Dose per 250 ml</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Fiori delicati</strong><span class="ex">camomilla, rosa, malva, tiglio</span></td>
+                <td class="num">90–95 °C<span class="thermo" aria-hidden="true"><span style="width:93%"></span></span></td>
+                <td class="num">4–5 min</td>
+                <td class="num">1,5–2 g</td>
+              </tr>
+              <tr>
+                <td><strong>Foglie aromatiche</strong><span class="ex">menta, melissa, verbena, ortica</span></td>
+                <td class="num">90–95 °C<span class="thermo" aria-hidden="true"><span style="width:93%"></span></span></td>
+                <td class="num">5–6 min</td>
+                <td class="num">1,5–2 g</td>
+              </tr>
+              <tr>
+                <td><strong>Radici, semi e cortecce</strong><span class="ex">liquirizia, zenzero, finocchio, cannella</span></td>
+                <td class="num">100 °C<span class="thermo" aria-hidden="true"><span style="width:100%"></span></span></td>
+                <td class="num">8–10 min</td>
+                <td class="num">2–2,5 g</td>
+              </tr>
+              <tr>
+                <td><strong>Frutta e ibisco</strong><span class="ex">frutti di bosco, ibisco, mela, pesca</span></td>
+                <td class="num">95–100 °C<span class="thermo" aria-hidden="true"><span style="width:98%"></span></span></td>
+                <td class="num">6–8 min</td>
+                <td class="num">3–3,5 g</td>
+              </tr>
+              <tr>
+                <td><strong>Infusi a freddo</strong><span class="ex">sambuco, anguria, verbena, menta</span></td>
+                <td class="num">4 °C, in frigo<span class="thermo" aria-hidden="true"><span style="width:4%"></span></span></td>
+                <td class="num">6–8 h</td>
+                <td class="num">2–3 g</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Un cucchiaino da tè colmo pesa circa 2 g di fiori o foglie. La barra indica la temperatura dell'acqua su una scala da 0 a 100 °C.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="cofanetti" aria-labelledby="boxTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Da regalare</p>
+          <h2 class="title" id="boxTitle">Cofanetti</h2>
+        </div>
+        <p>Latte da 50 g in una scatola di cartone riciclato, con un cartoncino bianco per il biglietto.</p>
+      </div>
+      <div class="boxes" id="boxes"></div>
+    </div>
+  </section>
+
+  <section class="band" id="filiera" aria-labelledby="bandTitle">
+    <div class="wrap" style="padding-block:clamp(56px,8vw,104px)">
+      <div class="band-head">
+        <div>
+          <p class="eyebrow">La filiera</p>
+          <h2 class="title" id="bandTitle">Dalla raccolta alla latta</h2>
+        </div>
+        <p>Lavoriamo con 14 piccoli produttori tra Umbria e Marche. Le erbe arrivano in laboratorio entro due giorni dalla raccolta e si essiccano all'ombra, su telai di legno.</p>
+      </div>
+      <dl class="stats">
+        <div><dt>38 °C</dt><dd>Temperatura massima di essiccazione, per non cuocere fiori e foglie.</dd></div>
+        <div><dt>48 h</dt><dd>Il tempo massimo tra la raccolta e l'arrivo in laboratorio.</dd></div>
+        <div><dt>0</dt><dd>Aromi aggiunti. Il profumo viene solo dalle piante.</dd></div>
+        <div><dt>100%</dt><dd>Imballaggi riciclabili: latta, carta e cartone.</dd></div>
+      </dl>
+      <div class="harvest">
+        <div class="harvest-top">
+          <h3>Calendario di raccolta</h3>
+          <p id="harvestNow"></p>
+        </div>
+        <div class="harvest-scroll">
+          <div class="hgrid" id="hgrid"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="newsletter" aria-labelledby="letterTitle">
+    <div class="wrap letter-grid">
+      <div>
+        <p class="eyebrow">Newsletter</p>
+        <h2 class="title" id="letterTitle">Un'erba al mese</h2>
+        <p>La pianta del mese, come riconoscerla nei prati e una ricetta per usarla. Una mail la prima domenica del mese, niente di più.</p>
+      </div>
+      <form class="letter-form" id="letterForm" novalidate>
+        <label class="sr" for="email">Indirizzo email</label>
+        <input class="field" id="email" type="email" placeholder="nome@esempio.it" autocomplete="email">
+        <button class="btn primary" type="submit">Iscriviti</button>
+        <p class="form-note">Prototipo: l'iscrizione non viene inviata.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="#top" aria-label="Malva Officinale, torna su">
+          <svg class="brand-mark" viewBox="-20 -20 40 40" aria-hidden="true"><use href="#petals"/><circle class="mark-center" r="3"/></svg>
+          <span><span class="brand-name">Malva</span><span class="brand-sub">Officinale · Tisaneria</span></span>
+        </a>
+        <p>Laboratorio e bottega in Via dei Semplici 12, Spoleto. Aperti dal martedì al sabato, 9:30–19:00.</p>
+      </div>
+      <div>
+        <h2>Bottega</h2>
+        <ul>
+          <li><a href="#tisane" data-cat-link="tutte">Tutte le tisane</a></li>
+          <li><a href="#tisane" data-cat-link="fredde">Infusi a freddo</a></li>
+          <li><a href="#tisane" data-cat-link="singole">Erbe singole</a></li>
+          <li><a href="#cofanetti">Cofanetti</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Aiuto</h2>
+        <ul>
+          <li><a href="#" data-proto="page">Spedizioni e resi</a></li>
+          <li><a href="#" data-proto="page">Domande frequenti</a></li>
+          <li><a href="#" data-proto="page">Contatti</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Malva</h2>
+        <ul>
+          <li><a href="#filiera">La filiera</a></li>
+          <li><a href="#infusione">Guida all'infusione</a></li>
+          <li><a href="#newsletter">Newsletter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Malva Officinale · Prototipo dimostrativo, nessun prodotto è in vendita.</span>
+      <span>Tutte le nostre tisane sono senza teina.</span>
+    </div>
+  </div>
+</footer>
+
+<dialog class="sheet" id="sheet" aria-labelledby="sheetTitle">
+  <button class="close" type="button" data-close aria-label="Chiudi la scheda">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+  </button>
+  <div class="sheet-inner" id="sheetInner"></div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- Dati ---------- */
+  const CATS = [
+    {id:"tutte", label:"Tutte", desc:"Ventiquattro ricette, tutte senza teina. Filtra per momento della giornata o cerca un ingrediente."},
+    {id:"sera", label:"Sera", desc:"Miscele morbide e floreali per chiudere la giornata.", moment:"Dopo cena, prima di dormire"},
+    {id:"dopopasto", label:"Dopo pasto", desc:"Semi, radici e foglie aromatiche da bere a fine pasto.", moment:"Dopo pranzo o dopo cena"},
+    {id:"fruttate", label:"Fruttate", desc:"Frutta essiccata, ibisco e fiori: colori intensi e gusto acidulo.", moment:"Pomeriggio, calde o fredde"},
+    {id:"speziate", label:"Speziate", desc:"Rooibos, honeybush e spezie calde. Senza teina, come tutte le altre.", moment:"Mattina o pomeriggio"},
+    {id:"fredde", label:"A freddo", desc:"Infusi da preparare in frigo: dopo 6–8 ore sono pronti.", moment:"Estate, in caraffa o in borraccia"},
+    {id:"singole", label:"Erbe singole", desc:"Un'erba sola, in foglie, fiori o boccioli interi.", moment:"Quando vuoi"}
+  ];
+  const CAT = Object.fromEntries(CATS.map(c => [c.id, c]));
+
+  const TEAS = [
+    {id:"camomilla", name:"Camomilla romana", latin:"Chamaemelum nobile", cat:"sera", ingr:"Fiori interi di camomilla romana", notes:["miele","mela cotta","fieno"], color:"#E2B84E", temp:95, min:5, g:2, price:6.9, badge:"Più amata", int:2, desc:"Fiori interi raccolti a mano a inizio estate. Più aromatica della camomilla comune, con un finale di mela cotta.", bits:[["#F6F2E4","flower",8]]},
+    {id:"tiglio", name:"Notte di tiglio", latin:"Tilia cordata · Melissa officinalis", cat:"sera", ingr:"Tiglio, melissa, fiori d'arancio amaro", notes:["floreale","agrumata","rotonda"], color:"#D7B05A", temp:95, min:6, g:2.5, price:7.5, int:2, desc:"Brattee e fiori di tiglio con melissa e fiori d'arancio amaro. Una miscela rotonda e profumata da bere dopo cena.", bits:[["#CFCB8C","leaf",4],["#F4EFE2","petal",5],["#7E9A55","leaf",2]]},
+    {id:"lavanda", name:"Lavanda & melissa", latin:"Lavandula angustifolia · Melissa officinalis", cat:"sera", ingr:"Melissa, lavanda in spighe, scorza di limone", notes:["balsamica","limone","lavanda"], color:"#CBBC70", temp:90, min:5, g:2, price:7.9, int:3, desc:"Tanta melissa e qualche spiga di lavanda d'altopiano. La lavanda si sente, ma resta in sottofondo.", bits:[["#8B77C2","seed",14],["#6E8E4D","leaf",4]]},
+    {id:"passiflora", name:"Passiflora della sera", latin:"Passiflora incarnata", cat:"sera", ingr:"Passiflora, avena in fiore, camomilla, valeriana", notes:["erbacea","terrosa","dolce"], color:"#B9A157", temp:95, min:8, g:2, price:8.4, badge:"Bio", int:3, desc:"Passiflora, avena in fiore e camomilla, con un pizzico di radice di valeriana. Gusto erbaceo e finale dolce.", bits:[["#7C8F55","leaf",5],["#B79A6A","chunk",3],["#F6F2E4","flower",2]]},
+
+    {id:"menta", name:"Menta piperita", latin:"Mentha × piperita", cat:"dopopasto", ingr:"Foglie intere di menta piperita piemontese", notes:["fresca","mentolata","pulita"], color:"#A8B45C", temp:90, min:5, g:1.5, price:6.5, int:4, desc:"Foglie intere di menta piperita coltivata in Piemonte ed essiccata all'ombra. Fresca e pulita, ottima anche fredda.", bits:[["#4E7A3E","leaf",8]]},
+    {id:"finocchio", name:"Finocchio & anice verde", latin:"Foeniculum vulgare · Pimpinella anisum", cat:"dopopasto", ingr:"Semi di finocchio dolce, anice verde, cumino dei prati", notes:["dolce","anisata","liquirizia"], color:"#D8C78C", temp:100, min:7, g:2, price:6.9, int:3, desc:"Semi di finocchio dolce, anice verde e cumino dei prati. Schiaccia i semi con un cucchiaio prima di versare l'acqua.", bits:[["#9C9A5A","seed",14],["#6B5A3A","seed",5]]},
+    {id:"zenzero", name:"Zenzero & limone", latin:"Zingiber officinale", cat:"dopopasto", ingr:"Zenzero a pezzi, scorza di limone, citronella", notes:["piccante","agrumata","vivace"], color:"#E0B04F", temp:100, min:8, g:2.5, price:7.9, badge:"Novità", int:5, desc:"Zenzero tagliato a pezzi, scorza di limone e citronella. Piccante quanto basta e regge una seconda infusione.", bits:[["#E9D69C","chunk",6],["#E8C547","petal",4],["#9DB36A","needle",5]]},
+    {id:"liquirizia", name:"Liquirizia in radice", latin:"Glycyrrhiza glabra", cat:"dopopasto", ingr:"Radice di liquirizia calabrese a bastoncini", notes:["dolce","legnosa","balsamica"], color:"#B2763A", temp:100, min:10, g:2, price:8.9, int:4, desc:"Radice di liquirizia calabrese tagliata a bastoncini, da sola. Dolce di natura, senza zuccheri aggiunti. Sconsigliata a chi soffre di pressione alta.", bits:[["#D2AA72","stick",5],["#8A5A2E","stick",2]]},
+
+    {id:"ibisco", name:"Ibisco & rosa canina", latin:"Hibiscus sabdariffa · Rosa canina", cat:"fruttate", ingr:"Calici di ibisco, bacche di rosa canina, mela", notes:["acidula","ribes","succosa"], color:"#A0203A", temp:100, min:8, g:3, price:7.5, badge:"Più amata", int:4, desc:"Calici di ibisco e bacche di rosa canina. Rosso rubino e acidulo: buono caldo, ancora meglio freddo.", bits:[["#6E1029","petal",6],["#E06A30","chunk",4]]},
+    {id:"bosco", name:"Frutti di bosco", latin:"Vaccinium myrtillus · Rubus idaeus", cat:"fruttate", ingr:"Mirtilli, more, lamponi, ibisco, mela", notes:["marmellata","acidula","succosa"], color:"#7C2647", temp:100, min:8, g:3.5, price:8.2, int:4, desc:"Mirtilli, more e lamponi essiccati, con ibisco e mela. Sa di marmellata fatta in casa.", bits:[["#2E1F3E","berry",6],["#C2456A","berry",3],["#E7D2A8","chunk",3]]},
+    {id:"mela", name:"Mela, cannella & cardamomo", latin:"Malus domestica · Cinnamomum verum", cat:"fruttate", ingr:"Mela a cubetti, cannella di Ceylon, cardamomo verde", notes:["strudel","speziata","dolce"], color:"#C0793B", temp:100, min:7, g:3, price:7.9, int:3, desc:"Mela a cubetti, cannella di Ceylon e cardamomo verde. Il profumo dello strudel, senza zucchero.", bits:[["#EAD4A4","chunk",6],["#7E4220","stick",2],["#9AA36A","seed",4]]},
+    {id:"pesca", name:"Pesca & fiori d'arancio", latin:"Prunus persica · Citrus aurantium", cat:"fruttate", ingr:"Pesca essiccata, fiori d'arancio, calendula", notes:["vellutata","floreale","estiva"], color:"#E3974E", temp:95, min:6, g:3, price:8.4, badge:"Novità", int:2, desc:"Pesca essiccata, fiori d'arancio e petali di calendula. Morbida e floreale.", bits:[["#F5B06A","chunk",5],["#F6F1E4","petal",4],["#F0B429","petal",3]]},
+
+    {id:"chai", name:"Rooibos chai", latin:"Aspalathus linearis", cat:"speziate", ingr:"Rooibos, cannella, cardamomo, chiodi di garofano, pepe nero", notes:["speziata","calda","vaniglia"], color:"#9A4521", temp:100, min:6, g:2.5, price:8.9, int:5, desc:"Rooibos sudafricano con le spezie del chai: cannella, cardamomo, chiodi di garofano e pepe nero. Provalo con latte d'avena.", bits:[["#C4642F","needle",18],["#3A2618","seed",4],["#6E3A1C","stick",2]]},
+    {id:"curcuma", name:"Curcuma d'oro", latin:"Curcuma longa", cat:"speziate", ingr:"Curcuma, zenzero, cocco, pepe nero", notes:["terrosa","calda","burrosa"], color:"#E0A01F", temp:100, min:8, g:2.5, price:8.5, int:4, desc:"Curcuma e zenzero con scaglie di cocco e pepe nero. Un infuso dorato e cremoso, ottimo con un cucchiaino di miele.", bits:[["#C97C0E","chunk",5],["#2B2117","seed",4],["#F5EDD8","chunk",3]]},
+    {id:"honeybush", name:"Honeybush & vaniglia", latin:"Cyclopia intermedia", cat:"speziate", ingr:"Honeybush, baccello di vaniglia, calendula", notes:["miele","vaniglia","albicocca"], color:"#B2622A", temp:100, min:6, g:2.5, price:9.2, badge:"Bio", int:3, desc:"Honeybush, parente più dolce del rooibos, con baccello di vaniglia. Note di miele e di albicocca secca.", bits:[["#8A4523","needle",16],["#2C1E14","needle",3],["#F0B429","petal",2]]},
+    {id:"carruba", name:"Carruba & arancia", latin:"Ceratonia siliqua · Citrus sinensis", cat:"speziate", ingr:"Carruba tostata, scorza d'arancia, cannella", notes:["cacao","agrumata","tostata"], color:"#683720", temp:100, min:7, g:2.5, price:8.9, int:4, desc:"Carruba siciliana tostata, scorza d'arancia e cannella. Sa di cacao, ma è carruba: niente teina e niente teobromina.", bits:[["#3E2014","chunk",7],["#EE9233","petal",3]]},
+
+    {id:"cetriolo", name:"Menta & cetriolo", latin:"Mentha spicata · Cucumis sativus", cat:"fredde", ingr:"Menta romana, cetriolo essiccato, melissa", notes:["dissetante","verde","fresca"], color:"#C5D59C", temp:null, min:480, g:2.5, price:7.5, int:2, desc:"Menta romana, cetriolo essiccato e un po' di melissa. Si prepara in frigo la sera e si beve al mattino.", bits:[["#4E7A3E","leaf",4],["#DDEBBE","slice",2]]},
+    {id:"limonata", name:"Limonata d'erbe", latin:"Aloysia citrodora · Cymbopogon citratus", cat:"fredde", ingr:"Verbena odorosa, citronella, scorza di limone", notes:["agrume","erba tagliata","vivace"], color:"#E1D07A", temp:null, min:360, g:2.5, price:7.9, int:3, desc:"Verbena odorosa, citronella e scorza di limone, infuse a freddo. Una limonata senza zucchero.", bits:[["#7F9A47","leaf",5],["#F0CC3F","petal",3],["#A7B666","needle",4]]},
+    {id:"anguria", name:"Anguria & ibisco", latin:"Citrullus lanatus · Hibiscus sabdariffa", cat:"fredde", ingr:"Anguria disidratata, ibisco, menta", notes:["dissetante","dolce","fruttata"], color:"#D4475D", temp:null, min:360, g:3, price:8.2, badge:"Novità", int:2, desc:"Anguria disidratata, ibisco e qualche foglia di menta. Rosa acceso e dissetante, perfetto in borraccia.", bits:[["#F27A8A","chunk",5],["#6E1029","petal",3],["#4E7A3E","leaf",2]]},
+    {id:"sambuco", name:"Fiori di sambuco", latin:"Sambucus nigra", cat:"fredde", ingr:"Fiori di sambuco raccolti a maggio", notes:["moscato","floreale","delicata"], color:"#E9DAA3", temp:null, min:480, g:2, price:8.4, int:1, desc:"Ombrelle di sambuco raccolte a maggio. A freddo diventano profumate come uno sciroppo, ma senza zucchero.", bits:[["#FBF6E2","tiny",18]]},
+
+    {id:"ortica", name:"Ortica", latin:"Urtica dioica", cat:"singole", ingr:"Foglie di ortica raccolte in primavera", notes:["vegetale","minerale","tè verde"], color:"#8E994B", temp:95, min:6, g:2, price:5.9, badge:"Bio", int:3, desc:"Foglie di ortica raccolte in primavera, prima della fioritura. Gusto vegetale e minerale, ricorda il tè verde.", bits:[["#3F6332","leaf",9]]},
+    {id:"verbena", name:"Verbena odorosa", latin:"Aloysia citrodora", cat:"singole", ingr:"Foglie intere di verbena odorosa", notes:["limone","caramella","erba"], color:"#C7C26D", temp:90, min:5, g:1.5, price:6.9, int:3, desc:"Foglie intere di verbena odorosa. Sa di limone e di caramella, da sola o con un po' di menta.", bits:[["#71903F","leaf",8]]},
+    {id:"rosa", name:"Rosa damascena", latin:"Rosa × damascena", cat:"singole", ingr:"Boccioli interi di rosa damascena", notes:["rosa","miele","delicata"], color:"#E2B391", temp:90, min:5, g:2, price:9.9, int:1, desc:"Boccioli interi di rosa damascena. Un infuso dorato e delicato, che profuma di miele e di petali.", bits:[["#C65F78","bud",6]]},
+    {id:"malva", name:"Malva blu", latin:"Malva sylvestris", cat:"singole", ingr:"Fiori interi di malva selvatica", notes:["delicata","vegetale","cambia colore"], color:"#43489B", temp:90, min:5, g:1.5, price:9.5, badge:"Firma della casa", int:1, desc:"Fiori di malva selvatica essiccati interi. L'infuso è blu; con qualche goccia di limone vira al rosa.", bits:[["#6A4BA6","mallow",5],["#9468C2","mallow",2]]}
+  ];
+  const BYID = Object.fromEntries(TEAS.map(t => [t.id, t]));
+
+  const BOXES = [
+    {id:"quattro-sere", name:"Quattro sere", items:["camomilla","tiglio","lavanda","passiflora"], price:27, layout:"four", desc:"Camomilla romana, Notte di tiglio, Lavanda & melissa e Passiflora della sera. Quattro latte da 50 g."},
+    {id:"dopo-cena", name:"Dopo cena", items:["menta","finocchio","zenzero","liquirizia"], price:26.5, layout:"four", desc:"Menta piperita, Finocchio & anice verde, Zenzero & limone e Liquirizia in radice. Quattro latte da 50 g."},
+    {id:"erbario", name:"L'erbario completo", items:TEAS.map(t => t.id), price:19, layout:"many", desc:"Ventiquattro bustine piramidali di carta, una per ogni tisana del menù. Per assaggiare tutto prima di scegliere."}
+  ];
+
+  const HARVEST = [
+    ["Ortica",3,5,"#A5BC6E"],["Sambuco",5,6,"#EEDFA8"],["Camomilla",5,7,"#EBC45C"],["Tiglio",6,7,"#DCC77E"],
+    ["Malva",6,8,"#A99DEB"],["Lavanda",7,8,"#C4B0EF"],["Menta",7,9,"#93CB9E"],["Rosa canina",9,11,"#E7806A"],["Liquirizia",10,11,"#D49C62"]
+  ];
+  const MONTHS = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
+
+  /* ---------- Utilità ---------- */
+  const $ = s => document.querySelector(s);
+  const eur = new Intl.NumberFormat("it-IT", {style:"currency", currency:"EUR"});
+  const fmtTemp = t => t.temp ? t.temp + " °C" : "In frigo";
+  const fmtTime = m => m >= 60 ? (m / 60) + " h" : m + " min";
+  const fmtG = g => String(g).replace(".", ",") + " g";
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+  const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  const hexRgb = h => { h = h.replace("#", ""); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); };
+  const mixRgb = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t);
+  const mixHex = (a, b, t) => "#" + mixRgb(hexRgb(a), hexRgb(b), t).map(v => Math.round(v).toString(16).padStart(2, "0")).join("");
+  const rgba = (c, a) => "rgba(" + Math.round(c[0]) + "," + Math.round(c[1]) + "," + Math.round(c[2]) + "," + a + ")";
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  function mulberry32(a){ return function(){ a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+  /* ---------- Tazza vista dall'alto (SVG) ---------- */
+  const SHAPES = {
+    flower: c => `<circle r="5.4" fill="${c}"/><circle r="2.3" fill="#E7B53A"/>`,
+    tiny:   c => `<circle r="2.7" fill="${c}"/><circle r="1" fill="#E3CB6E"/>`,
+    petal:  c => `<ellipse rx="6.5" ry="3" fill="${c}"/>`,
+    leaf:   c => `<path d="M-9 0Q0-5.6 9 0Q0 5.6-9 0Z" fill="${c}"/><path d="M-8 0H8" stroke="rgba(0,0,0,.22)" stroke-width=".7"/>`,
+    seed:   c => `<ellipse rx="2.8" ry="1.3" fill="${c}"/>`,
+    chunk:  c => `<rect x="-3.6" y="-3.1" width="7.2" height="6.2" rx="1.6" fill="${c}"/>`,
+    stick:  c => `<rect x="-10" y="-1.7" width="20" height="3.4" rx="1.6" fill="${c}"/>`,
+    needle: c => `<rect x="-4.5" y="-.65" width="9" height="1.3" rx=".6" fill="${c}"/>`,
+    berry:  c => `<circle r="3.5" fill="${c}"/><circle cx="-1" cy="-1.1" r=".9" fill="#fff" opacity=".45"/>`,
+    slice:  c => `<circle r="7.5" fill="${c}" stroke="#7FA35A" stroke-width="1.4"/><circle r="2.2" fill="#F1F6E2"/>`,
+    bud:    c => `<ellipse rx="4.6" ry="3.4" fill="${c}"/><circle cx="-4" r="1.9" fill="#6F8A4A"/>`,
+    mallow: c => [0, 72, 144, 216, 288].map(a => `<ellipse cy="-4.3" rx="2.9" ry="4.5" fill="${c}" transform="rotate(${a})"/>`).join("") + `<circle r="1.5" fill="#F1E6F5"/>`
+  };
+  function bitsSVG(t, seed){
+    const r = mulberry32(seed * 7919 + 13);
+    let out = "";
+    for (const [col, shape, n] of t.bits){
+      for (let i = 0; i < n; i++){
+        const rad = Math.sqrt(r()) * 58, ang = r() * Math.PI * 2;
+        const x = (Math.cos(ang) * rad).toFixed(1), y = (Math.sin(ang) * rad).toFixed(1);
+        const rot = Math.round(r() * 360), s = (.85 + r() * .4).toFixed(2);
+        out += `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})">${SHAPES[shape](col)}</g>`;
+      }
+    }
+    return out;
+  }
+  let uid = 0;
+  function cupSVG(t){
+    const id = "lq" + (uid++);
+    const seed = TEAS.indexOf(t) + 1;
+    return `<svg class="cup" viewBox="-132 -132 264 264" aria-hidden="true" focusable="false">
+<defs><radialGradient id="${id}" cx="46%" cy="42%" r="60%"><stop offset="0" stop-color="${mixHex(t.color, "#ffffff", .16)}"/><stop offset=".72" stop-color="${t.color}"/><stop offset="1" stop-color="${mixHex(t.color, "#000000", .3)}"/></radialGradient></defs>
+<circle class="c-shadow" cx="8" cy="14" r="94" filter="url(#soft)"/>
+<rect class="c-porc" x="80" y="-17" width="48" height="34" rx="17"/>
+<circle class="c-porc" r="94"/>
+<circle class="c-wall" r="83"/>
+<circle class="c-water" r="76"/>
+<g class="liquor"><circle class="lq" r="76" fill="url(#${id})"/>${bitsSVG(t, seed)}</g>
+<circle r="76" fill="url(#cupEdge)"/>
+<ellipse cx="-30" cy="-36" rx="30" ry="13" transform="rotate(-35 -30 -36)" fill="url(#cupGloss)"/>
+</svg>`;
+  }
+
+  /* ---------- Toast ---------- */
+  const toastEl = $("#toast");
+  const dlg = $("#sheet");
+  let toastTimer = 0;
+  function toast(msg){
+    const host = dlg.open ? dlg : document.body;
+    if (toastEl.parentNode !== host) host.appendChild(toastEl);
+    toastEl.textContent = msg;
+    toastEl.classList.remove("show");
+    void toastEl.offsetWidth;
+    toastEl.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove("show"), 3000);
+  }
+  const PROTO_CART = "Questo è un prototipo: il carrello non è attivo, ma puoi continuare a sfogliare.";
+
+  /* ---------- Palette ---------- */
+  const swWrap = $("#swatches"), swNow = $("#paletteNow");
+  const swDefault = swNow.textContent;
+  swWrap.innerHTML = TEAS.map(t => `<button class="swatch" type="button" style="--c:${t.color}" data-open="${t.id}" data-sw="${t.id}" aria-label="${esc(t.name)}"></button>`).join("");
+  function swShow(id){
+    const t = BYID[id];
+    swNow.innerHTML = `<i style="background:${t.color}"></i><span>${esc(t.name)} · ${fmtTemp(t)} · ${fmtTime(t.min)}</span>`;
+  }
+  swWrap.addEventListener("pointerover", e => { const b = e.target.closest("[data-sw]"); if (b) swShow(b.dataset.sw); });
+  swWrap.addEventListener("focusin", e => { const b = e.target.closest("[data-sw]"); if (b) swShow(b.dataset.sw); });
+  swWrap.addEventListener("pointerleave", () => { swNow.textContent = swDefault; });
+
+  /* ---------- Menù ---------- */
+  const state = {cat:"tutte", q:"", sort:"evidenza"};
+  const chips = $("#chips"), grid = $("#grid"), countEl = $("#count"), catDesc = $("#catDesc");
+  chips.innerHTML = CATS.map(c => {
+    const n = c.id === "tutte" ? TEAS.length : TEAS.filter(t => t.cat === c.id).length;
+    return `<button class="chip" type="button" data-cat="${c.id}" aria-pressed="${c.id === state.cat}">${c.label}<span class="n">${n}</span></button>`;
+  }).join("");
+
+  function card(t){
+    const badge = t.badge ? `<span class="badge${t.badge === "Firma della casa" ? " firma" : ""}">${t.badge}</span>` : "";
+    return `<article class="product">
+  <button class="tile" type="button" data-open="${t.id}" tabindex="-1" aria-label="Apri la scheda di ${esc(t.name)}">${badge}${cupSVG(t)}</button>
+  <div class="meta">
+    <p class="p-cat">${CAT[t.cat].label}</p>
+    <h3 class="p-name"><button type="button" data-open="${t.id}">${esc(t.name)}</button></h3>
+    <p class="p-ingr">${esc(t.ingr)}</p>
+    <p class="p-spec"><span>${fmtTemp(t)}</span><span>${fmtTime(t.min)}</span><span>${fmtG(t.g)}</span></p>
+    <div class="p-buy"><span class="price">${eur.format(t.price)} <small>/ 50 g</small></span><button type="button" class="add" data-add="${t.id}" aria-label="Aggiungi ${esc(t.name)} al carrello">Aggiungi</button></div>
+  </div>
+</article>`;
+  }
+
+  function render(){
+    let list = TEAS.filter(t => state.cat === "tutte" || t.cat === state.cat);
+    const q = norm(state.q.trim());
+    if (q) list = list.filter(t => norm([t.name, t.latin, t.ingr, t.notes.join(" "), CAT[t.cat].label].join(" ")).includes(q));
+    const sorters = {
+      "prezzo-asc": (a, b) => a.price - b.price,
+      "prezzo-desc": (a, b) => b.price - a.price,
+      "nome": (a, b) => a.name.localeCompare(b.name, "it"),
+      "tempo": (a, b) => a.min - b.min
+    };
+    if (sorters[state.sort]) list = list.slice().sort(sorters[state.sort]);
+
+    catDesc.textContent = CAT[state.cat].desc;
+    countEl.textContent = list.length + (list.length === 1 ? " tisana" : " tisane");
+    if (!list.length){
+      const other = state.cat !== "tutte" ? ` <button class="linkish" type="button" data-cat="tutte">Cerca in tutte le categorie</button>` : "";
+      grid.innerHTML = `<div class="empty"><p>Nessuna tisana corrisponde a “${esc(state.q.trim())}”.${other}</p><p>Prova con un ingrediente, per esempio <button class="linkish" type="button" data-q="zenzero">zenzero</button> o <button class="linkish" type="button" data-q="rosa">rosa</button>.</p></div>`;
+      return;
+    }
+    grid.innerHTML = list.map(card).join("");
+  }
+  function setCat(id){
+    state.cat = id;
+    chips.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.cat === id)));
+    render();
+  }
+  chips.addEventListener("click", e => { const b = e.target.closest("[data-cat]"); if (b) setCat(b.dataset.cat); });
+  const searchEl = $("#search");
+  searchEl.addEventListener("input", () => { state.q = searchEl.value; render(); });
+  $("#sort").addEventListener("change", e => { state.sort = e.target.value; render(); });
+  render();
+
+  /* ---------- Cofanetti ---------- */
+  $("#boxes").innerHTML = BOXES.map(b => {
+    const lids = b.items.map(id => `<span class="lid" style="--c:${BYID[id].color}"></span>`).join("");
+    const full = b.items.reduce((s, id) => s + BYID[id].price, 0);
+    const save = b.layout === "four" ? `<span class="save">Risparmi ${eur.format(full - b.price)}</span>` : `<span class="save">24 tazze</span>`;
+    return `<article class="giftbox">
+  <div class="box-visual" aria-hidden="true"><div class="tray ${b.layout}">${lids}</div></div>
+  <div><h3>${esc(b.name)}</h3><p>${esc(b.desc)}</p></div>
+  <div class="p-buy"><span class="price">${eur.format(b.price)} ${save}</span><button type="button" class="add" data-add="${b.id}" aria-label="Aggiungi il cofanetto ${esc(b.name)} al carrello">Aggiungi</button></div>
+</article>`;
+  }).join("");
+
+  /* ---------- Calendario di raccolta ---------- */
+  (function(){
+    const g = $("#hgrid");
+    const cur = new Date().getMonth() + 1;
+    let html = `<span class="now-col" style="grid-row:1 / ${HARVEST.length + 2};grid-column:${cur + 1}" aria-hidden="true"></span>`;
+    html += `<span style="grid-row:1;grid-column:1"></span>`;
+    MONTHS.forEach((m, i) => { html += `<span class="m${i + 1 === cur ? " now" : ""}" style="grid-row:1;grid-column:${i + 2}" title="${m}">${m[0].toUpperCase()}</span>`; });
+    HARVEST.forEach(([name, a, b, col], i) => {
+      const row = i + 2;
+      html += `<span class="lbl" style="grid-row:${row};grid-column:1">${name}</span>`;
+      html += `<span class="track" style="grid-row:${row};grid-column:2 / 14" aria-hidden="true"></span>`;
+      html += `<span class="bar" role="img" aria-label="${name}: da ${MONTHS[a - 1]} a ${MONTHS[b - 1]}" style="grid-row:${row};grid-column:${a + 1} / ${b + 2};background:${col}"></span>`;
+    });
+    g.innerHTML = html;
+    const now = HARVEST.filter(([, a, b]) => cur >= a && cur <= b).map(h => h[0].toLowerCase());
+    const list = new Intl.ListFormat("it", {type:"conjunction"});
+    $("#harvestNow").innerHTML = now.length
+      ? `A ${MONTHS[cur - 1]} raccogliamo <b>${list.format(now)}</b>.`
+      : `A ${MONTHS[cur - 1]} i campi riposano: lavoriamo le erbe essiccate in estate.`;
+  })();
+
+  /* ---------- Scheda prodotto ---------- */
+  const inner = $("#sheetInner");
+  const SIZES = [
+    {g:50, label:"Latta", mult:1},
+    {g:100, label:"Ricarica in busta", mult:1.8},
+    {g:250, label:"Sacco da bottega", mult:4}
+  ];
+  const sizePrice = (t, s) => Math.round(t.price * s.mult * 10) / 10;
+  let timer = null;
+  function stopTimer(){ if (timer){ clearInterval(timer.iv); timer.running = false; } }
+
+  function openTea(id){
+    const t = BYID[id];
+    if (!t) return;
+    stopTimer();
+    const cat = CAT[t.cat];
+    const sameCat = TEAS.filter(x => x.cat === t.cat);
+    const k = sameCat.indexOf(t);
+    const pairs = [sameCat[(k + 1) % sameCat.length], sameCat[(k + 2) % sameCat.length]];
+    const badge = t.badge ? `<span class="badge${t.badge === "Firma della casa" ? " firma" : ""}">${t.badge}</span>` : "";
+    const dots = Array.from({length:5}, (_, i) => `<i class="${i < t.int ? "on" : ""}"></i>`).join("");
+    const timerHTML = t.temp
+      ? `<div class="timer">
+          <p class="eyebrow">Timer d'infusione</p>
+          <p class="timer-read" id="timerRead">${String(t.min).padStart(2, "0")}:00</p>
+          <div class="timer-actions"><button class="btn primary small" type="button" id="timerBtn">Avvia</button><button class="btn ghost small" type="button" id="timerReset" hidden>Azzera</button></div>
+          <p class="timer-msg" id="timerMsg" aria-live="polite">Versa l'acqua a ${t.temp} °C e avvia il timer.</p>
+        </div>`
+      : `<div class="timer">
+          <p class="eyebrow">Infuso a freddo</p>
+          <p class="timer-msg">Metti ${fmtG(t.g)} ogni 250 ml di acqua fredda in una caraffa e lascia in frigo per ${fmtTime(t.min)}. Filtra e servi.</p>
+        </div>`;
+
+    inner.innerHTML = `
+<div class="sheet-visual">${badge}${cupSVG(t)}${timerHTML}</div>
+<div class="sheet-body">
+  <div>
+    <p class="eyebrow">${cat.label} · Senza teina</p>
+    <h2 class="sheet-title" id="sheetTitle">${esc(t.name)}</h2>
+    <p class="latin">${esc(t.latin)}</p>
+  </div>
+  <p class="sheet-desc">${esc(t.desc)}</p>
+  <ul class="notes" aria-label="Note di gusto">${t.notes.map(n => `<li>${esc(n)}</li>`).join("")}</ul>
+  <dl class="spec-grid">
+    <div><dt>Acqua</dt><dd>${fmtTemp(t)}</dd></div>
+    <div><dt>Tempo</dt><dd>${fmtTime(t.min)}</dd></div>
+    <div><dt>Dose 250 ml</dt><dd>${fmtG(t.g)}</dd></div>
+  </dl>
+  <dl class="facts">
+    <div><dt>Ingredienti</dt><dd>${esc(t.ingr)}</dd></div>
+    <div><dt>Momento</dt><dd>${cat.moment}</dd></div>
+    <div><dt>Intensità</dt><dd><span class="dots" role="img" aria-label="${t.int} su 5">${dots}</span></dd></div>
+  </dl>
+  <fieldset class="sizes">
+    <legend>Formato</legend>
+    <div class="size-grid">
+      ${SIZES.map((s, i) => `<label class="size"><input type="radio" name="size" id="size-${s.g}" value="${i}"${i === 0 ? " checked" : ""}><b>${s.g} g</b><span>${s.label}</span><em>${eur.format(sizePrice(t, s))}</em></label>`).join("")}
+    </div>
+  </fieldset>
+  <button class="btn primary wide" type="button" data-add="${t.id}" id="sheetAdd">Aggiungi al carrello · <span id="sheetPrice">${eur.format(t.price)}</span></button>
+  <p class="proto-note">Prototipo: il carrello non è attivo.</p>
+  <div class="pairs">
+    <p class="eyebrow">Si abbina con</p>
+    <div class="pair-list">${pairs.map(p => `<button class="pair" type="button" data-open="${p.id}"><i style="--c:${p.color}"></i>${esc(p.name)}</button>`).join("")}</div>
+  </div>
+</div>`;
+
+    inner.querySelectorAll('input[name="size"]').forEach(r => r.addEventListener("change", () => {
+      $("#sheetPrice").textContent = eur.format(sizePrice(t, SIZES[+r.value]));
+    }));
+    if (t.temp) setupTimer(t);
+    if (!dlg.open) dlg.showModal();
+    dlg.scrollTop = 0;
+  }
+
+  function setupTimer(t){
+    const read = $("#timerRead"), btn = $("#timerBtn"), reset = $("#timerReset"), msg = $("#timerMsg");
+    const lq = inner.querySelector(".lq");
+    const total = t.min * 60;
+    const mmss = s => String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
+    timer = {elapsed:0, start:0, iv:0, running:false};
+    const tick = () => {
+      const el = timer.elapsed + (performance.now() - timer.start) / 1000;
+      const p = Math.min(1, el / total);
+      lq.style.opacity = (.12 + .88 * Math.sqrt(p)).toFixed(3);
+      read.textContent = mmss(Math.ceil(Math.max(0, total - el)));
+      if (p >= 1){
+        clearInterval(timer.iv);
+        timer.running = false; timer.elapsed = total;
+        btn.textContent = "Ricomincia";
+        msg.textContent = "Pronta. Togli il filtro e buona tazza.";
+      }
+    };
+    btn.addEventListener("click", () => {
+      if (timer.running){
+        timer.elapsed += (performance.now() - timer.start) / 1000;
+        timer.running = false; clearInterval(timer.iv);
+        btn.textContent = "Riprendi"; msg.textContent = "In pausa.";
+        return;
+      }
+      if (timer.elapsed >= total) timer.elapsed = 0;
+      if (timer.elapsed === 0) lq.style.opacity = ".12";
+      timer.start = performance.now(); timer.running = true;
+      btn.textContent = "Pausa"; reset.hidden = false;
+      msg.textContent = "In infusione. Copri la tazza.";
+      timer.iv = setInterval(tick, 250);
+    });
+    reset.addEventListener("click", () => {
+      stopTimer(); timer.elapsed = 0;
+      read.textContent = mmss(total); lq.style.opacity = "";
+      btn.textContent = "Avvia"; reset.hidden = true;
+      msg.textContent = `Versa l'acqua a ${t.temp} °C e avvia il timer.`;
+    });
+  }
+  dlg.addEventListener("close", stopTimer);
+  dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+
+  /* ---------- Delegazione click ---------- */
+  document.addEventListener("click", e => {
+    const open = e.target.closest("[data-open]");
+    if (open){ openTea(open.dataset.open); return; }
+    if (e.target.closest("[data-close]")){ dlg.close(); return; }
+    if (e.target.closest("[data-add]")){ toast(PROTO_CART); return; }
+    const proto = e.target.closest("[data-proto]");
+    if (proto){
+      e.preventDefault();
+      toast(proto.dataset.proto === "cart" ? "Il carrello è vuoto: in questo prototipo gli acquisti non sono attivi." : "Questa pagina non fa parte del prototipo.");
+      return;
+    }
+    const q = e.target.closest("[data-q]");
+    if (q){ searchEl.value = q.dataset.q; state.q = q.dataset.q; setCat("tutte"); return; }
+    const catLink = e.target.closest("[data-cat-link]");
+    if (catLink){ setCat(catLink.dataset.catLink); }
+    const inGrid = e.target.closest("#grid [data-cat]");
+    if (inGrid){ setCat("tutte"); }
+  });
+
+  $("#letterForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const v = $("#email").value.trim();
+    toast(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
+      ? "Grazie! È un prototipo, quindi l'iscrizione non è stata inviata."
+      : "Scrivi un indirizzo email completo, per esempio nome@esempio.it.");
+  });
+
+  /* ---------- Tazza viva: malva blu che vira al rosa ---------- */
+  (function(){
+    const cv = $("#brew");
+    const ctx = cv.getContext("2d");
+    const btn = $("#lemonBtn"), label = $("#lemonLabel"), stateTxt = $("#brewState"), dot = $("#brewDot");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const BLUES = ["#363B8C","#5259AE","#2B2C68","#6B63B6","#454CA2"].map(hexRgb);
+    const PINKS = ["#C2407A","#E57CAC","#A82E63","#DC6296","#CF578B"].map(hexRgb);
+    const BASE_B = hexRgb("#3F469C"), BASE_P = hexRgb("#CC5A8E");
+    const FLOWER_B = hexRgb("#5A3E95"), FLOWER_P = hexRgb("#8E3B78");
+    const rnd = mulberry32(11);
+    const blobs = Array.from({length:20}, (_, i) => ({
+      a: rnd() * Math.PI * 2, orbit: .05 + rnd() * .62,
+      speed: (.05 + rnd() * .12) * (rnd() < .5 ? -1 : 1),
+      size: .22 + rnd() * .3, wob: rnd() * Math.PI * 2, shade: i % 5, alpha: .3 + rnd() * .3
+    }));
+    const flowers = Array.from({length:4}, () => ({a: rnd() * Math.PI * 2, orbit: .2 + rnd() * .45, speed: .03 + rnd() * .04, rot: rnd() * 6.28, s: .085 + rnd() * .03}));
+    let size = 0, dpr = 1, drop = null, fade = null, ripples = [];
+    const SOFT = .45, SPREAD_MS = 5200, FADE_MS = 900;
+
+    function setPink(on){
+      label.textContent = on ? "Ricomincia con la malva blu" : "Aggiungi una goccia di limone";
+      stateTxt.textContent = on ? "Con limone · rosa peonia" : "Senza limone · blu malva";
+      dot.style.background = on ? "#CC5A8E" : "#43489B";
+    }
+    function resize(){
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      size = Math.max(1, Math.round(cv.clientWidth * dpr));
+      cv.width = size; cv.height = size;
+      draw(performance.now());
+    }
+    function front(now){
+      if (!drop) return -1;
+      const p = reduce.matches ? 1 : Math.min(1, (now - drop.t0) / SPREAD_MS);
+      return (1 - Math.pow(1 - p, 3)) * 2.3;
+    }
+    function draw(now){
+      if (!size) return;
+      const R = size / 2, t = reduce.matches ? 0 : now / 1000;
+      let fadeMul = 1;
+      if (fade){
+        fadeMul = reduce.matches ? 0 : 1 - Math.min(1, (now - fade.t0) / FADE_MS);
+        if (fadeMul <= 0){ drop = null; fade = null; fadeMul = 1; }
+      }
+      const fr = front(now);
+      const kAt = (x, y) => drop ? clamp((fr - Math.hypot(x - drop.x, y - drop.y)) / SOFT + .5, 0, 1) * fadeMul : 0;
+
+      ctx.clearRect(0, 0, size, size);
+      ctx.save();
+      ctx.beginPath(); ctx.arc(R, R, R, 0, Math.PI * 2); ctx.clip();
+      ctx.fillStyle = rgba(BASE_B, 1); ctx.fillRect(0, 0, size, size);
+      if (drop){
+        const cx = R + drop.x * R, cy = R + drop.y * R;
+        const outer = Math.max(1, (fr + SOFT / 2) * R), innerR = Math.max(0, (fr - SOFT / 2) * R);
+        const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, outer);
+        g.addColorStop(0, rgba(BASE_P, fadeMul));
+        g.addColorStop(Math.min(.999, innerR / outer), rgba(BASE_P, fadeMul));
+        g.addColorStop(1, rgba(BASE_P, 0));
+        ctx.fillStyle = g; ctx.fillRect(0, 0, size, size);
+      }
+      for (const b of blobs){
+        const ang = b.a + t * b.speed, orb = b.orbit + Math.sin(t * .3 + b.wob) * .06;
+        const x = Math.cos(ang) * orb, y = Math.sin(ang) * orb;
+        const col = mixRgb(BLUES[b.shade], PINKS[b.shade], kAt(x, y));
+        const px = R + x * R, py = R + y * R, br = b.size * R * (1 + Math.sin(t * .5 + b.wob) * .12);
+        const g = ctx.createRadialGradient(px, py, 0, px, py, br);
+        g.addColorStop(0, rgba(col, b.alpha)); g.addColorStop(1, rgba(col, 0));
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(px, py, br, 0, Math.PI * 2); ctx.fill();
+      }
+      for (const f of flowers){
+        const ang = f.a + t * f.speed, x = Math.cos(ang) * f.orbit, y = Math.sin(ang) * f.orbit;
+        const col = mixRgb(FLOWER_B, FLOWER_P, kAt(x, y));
+        ctx.save();
+        ctx.translate(R + x * R, R + y * R); ctx.rotate(f.rot + t * .05);
+        const s = f.s * R;
+        ctx.fillStyle = rgba(col, .92);
+        for (let i = 0; i < 5; i++){
+          ctx.rotate(Math.PI * 2 / 5);
+          ctx.beginPath(); ctx.ellipse(0, -s * .55, s * .36, s * .55, 0, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.fillStyle = "rgba(241,230,245,.9)"; ctx.beginPath(); ctx.arc(0, 0, s * .16, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+      }
+      ripples = ripples.filter(r => now - r.t0 < 1700);
+      for (const r of ripples){
+        const p = (now - r.t0) / 1700;
+        for (let i = 0; i < 3; i++){
+          const q = p - i * .13;
+          if (q <= 0) continue;
+          ctx.strokeStyle = "rgba(255,255,255," + ((1 - q) * .5).toFixed(3) + ")";
+          ctx.lineWidth = 1.5 * dpr;
+          ctx.beginPath(); ctx.arc(R + r.x * R, R + r.y * R, q * R * .6, 0, Math.PI * 2); ctx.stroke();
+        }
+      }
+      const edge = ctx.createRadialGradient(R, R, R * .74, R, R, R);
+      edge.addColorStop(0, "rgba(10,10,30,0)"); edge.addColorStop(1, "rgba(10,10,30,.38)");
+      ctx.fillStyle = edge; ctx.fillRect(0, 0, size, size);
+      const hx = R * .64, hy = R * .5, gl = ctx.createRadialGradient(hx, hy, 0, hx, hy, R * .42);
+      gl.addColorStop(0, "rgba(255,255,255,.3)"); gl.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = gl; ctx.fillRect(0, 0, size, size);
+      ctx.restore();
+    }
+
+    function addDrop(x, y){
+      const now = performance.now();
+      if (!drop || fade){ drop = {x, y, t0: now}; fade = null; setPink(true); }
+      if (!reduce.matches) ripples.push({x, y, t0: now});
+      if (!raf) draw(now);
+    }
+    cv.addEventListener("click", e => {
+      const r = cv.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width) * 2 - 1, y = ((e.clientY - r.top) / r.height) * 2 - 1;
+      if (x * x + y * y <= 1) addDrop(x, y);
+    });
+    btn.addEventListener("click", () => {
+      if (drop && !fade){ fade = {t0: performance.now()}; setPink(false); if (!raf) draw(performance.now()); }
+      else addDrop(-.24, -.2);
+    });
+
+    let raf = 0;
+    const loop = now => { draw(now); raf = requestAnimationFrame(loop); };
+    new ResizeObserver(resize).observe(cv);
+    new IntersectionObserver(es => {
+      const vis = es[0].isIntersecting;
+      if (vis && !raf && !reduce.matches) raf = requestAnimationFrame(loop);
+      else if (!vis && raf){ cancelAnimationFrame(raf); raf = 0; }
+    }).observe(cv);
+    resize();
+  })();
+})();
+</script>
+
+</html>
